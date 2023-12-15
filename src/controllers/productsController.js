@@ -32,13 +32,33 @@ const controller = {
 
 	// Update - Form to edit
 	edit: (req, res) => {
+		const{id}=req.params;
+		const product=products.find(product=>product.id==id);
+		res.render("product-edit-form",{title:product.name,product,toThousand})
 		
-		res.render("product-edit-form")
 	},
 	// Update - Method to update
 	update: (req, res) => {
-		res.rende('product-edit-form')
-	},
+		const{id}=req.params;
+		const {name,price,discount,category,description,image}= req.body;
+		const nuevoArray= product.map(product =>{
+			if ( product.id ==id ){
+				return {
+					id,
+					name:name.trim(),
+					price,
+					discount,
+					category,
+					description:description.trim(),
+					image: image ? image : product.image
+				}
+				return product
+			}
+		})
+		const json=JSON.stringify(nuevoArray)
+		fs.writeFileSync(productsFilePath,json,"utf-8")
+		// res.redirect(´/product/detail/${id}´)
+	}, 
 
 	// Delete - Delete one product from DB
 	destroy : (req, res) => {
