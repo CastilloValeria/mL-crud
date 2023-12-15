@@ -28,27 +28,43 @@ const controller = {
 	create: (req, res) => {
 		res.render("product-create-form")
 	},
-	
+
 	// Create -  Method to store
 	store: (req, res) => {
-		
-		res.render("product-create-form")
+	const getJason = ()=>{
+	const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+	return products;}
+	const archivoJson = getJson("productsDataBase");
+    const id = archivoJson[archivoJson.length - 1].id + 1;
+    const { name, price, discount, category, description } = req.body;
+    let newObjeto = {
+    id,
+    name,
+    price: +price,
+    discount: +discount,
+    category,
+    description,
+    image: "default-image.png",
+    };
+    let newArchivo = [...archivoJson, newObjeto];
+    setJson(newArchivo, "productsDataBase");
+    res.redirect("/products");
 	},
 
 	// Update - Form to edit
 	edit: (req, res) => {
-		const{id}=req.params;
+	const{id}=req.params;
 		// const products= getJason();
-		const product=products.find(product=>product.id==id);
-		res.render("product-edit-form",{title:product.name,product,toThousand})
+	const product=products.find(product=>product.id==id);
+	res.render("product-edit-form",{title:product.name,product,toThousand})
 		
 	},
 	// Update - Method to update
 	update: (req, res) => {
-		const{id}=req.params;
-		const {name,price,discount,category,description,image}= req.body;
+	const{id}=req.params;
+	const {name,price,discount,category,description,image}= req.body;
 		// const products= getJason();
-		const nuevoArray= products.map(product =>{
+	const nuevoArray= products.map(product =>{
 			if ( product.id == id ){
 				return {
 					id,
