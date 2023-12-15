@@ -1,9 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
-const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
+// const getJason = ()=>{
+// const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
+// return products;
+// }
+// 
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 const controller = {
@@ -15,6 +19,7 @@ const controller = {
 	// Detail - Detail from one product
 	detail: (req, res) => {
 		const{id}=req.params;
+		// const products= getJason();
 		const product=products.find(product=>product.id==id);
 		res.render("detail",{title:product.name,product,toThousand})
 	},
@@ -33,6 +38,7 @@ const controller = {
 	// Update - Form to edit
 	edit: (req, res) => {
 		const{id}=req.params;
+		// const products= getJason();
 		const product=products.find(product=>product.id==id);
 		res.render("product-edit-form",{title:product.name,product,toThousand})
 		
@@ -41,23 +47,24 @@ const controller = {
 	update: (req, res) => {
 		const{id}=req.params;
 		const {name,price,discount,category,description,image}= req.body;
-		const nuevoArray= product.map(product =>{
-			if ( product.id ==id ){
+		// const products= getJason();
+		const nuevoArray= products.map(product =>{
+			if ( product.id == id ){
 				return {
 					id,
 					name:name.trim(),
-					price,
-					discount,
-					category,
 					description:description.trim(),
-					image: image ? image : product.image
-				}
-				return product
+					price:+price,
+					discount:+discount,					
+					image: image ? image : product.image,
+					category,
+				};
 			}
+			return product
 		})
 		const json=JSON.stringify(nuevoArray)
 		fs.writeFileSync(productsFilePath,json,"utf-8")
-		// res.redirect(´/product/detail/${id}´)
+		res.redirect(`/products/detail/${id}`);
 	}, 
 
 	// Delete - Delete one product from DB
