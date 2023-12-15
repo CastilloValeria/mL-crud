@@ -44,3 +44,5 @@ Thumbs.db
 *.config
 node_modules/
 .vscode/
+/M05C28 - Ejercitación CRUD Episodio I.pdf
+/package-lock.json
