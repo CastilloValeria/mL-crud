@@ -1,9 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
-
-
-
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
 
@@ -82,17 +80,14 @@ const controller = {
 		res.redirect(`/products/detail/${id}`);
 	}, 
 
-	// Delete - Delete one product from DB
-	destroy: (req, res) => {
-		const {id}= req.params;
-		const getJason = ()=>{
-		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
-			return products;}
-		const archivoJson = getJson("productsDataBase");
-		const productosRestantes = archivoJson.filter(product => product.id != id);
-			setJson(productosRestantes, "productsDataBase");
-			res.redirect("/products");
-	}
+	// Delete - Delete one product from DB   
+	destroy: (req, res) => { const id = req.params.id; const leerjson = products;
+	// console.log(leerjson); 
+	const producto = leerjson.filter(producto => producto.id != id); 
+	const json = JSON.stringify(producto);
+	fs.writeFileSync(productsFilePath, json, "utf-8"); 
+	res.redirect("/products"); }
+	
 };
 
 module.exports = controller;

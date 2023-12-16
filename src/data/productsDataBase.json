@@ -72,22 +72,13 @@
         "category": "in-sale"
     },
     {
-        "id": 9,
-        "name": "Teclado Apple Magic Inalámbrico",
-        "description": "El teclado mágico combina un diseño elegante con una batería recargable incorporada y funciones clave mejoradas. Con un mecanismo de tijera estable debajo de cada tecla, así como un recorrido de teclas optimizado y un perfil bajo, el Teclado Mágico ofrece una experiencia de escritura notablemente cómoda y precisa.",
-        "price": 11399,
-        "discount": 0,
-        "image": "img-apple-magic-keyboard.jpg",
-        "category": "visited"
-    },
-    {
         "id": "10",
         "name": "Mouse Inalámbrico Logitech M280",
         "description": "Uso más cómodo para la mano derecha gracias a la forma contorneada con recubrimiento de goma blanda. Duración de las pilas hasta 18 meses, gracias al diseño para ahorrar energía.El M280 entra automáticamente en estado de suspensión cuando no se está usando.",
-        "price": 1250,
-        "discount": 15,
+        "price": 1599,
+        "discount": 10,
         "image": "img-mouse-logitech.jpg",
-        "category": "in-sale" 
+        "category": ""
     },
     {
         "id": 11,
