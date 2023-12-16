@@ -2,18 +2,17 @@ const fs = require('fs');
 const path = require('path');
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 
-// const getJason = ()=>{
-// const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+
+
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
-// return products;
-// }
-// 
+
+
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 const controller = {
 	// Root - Show all products
 	index: (req, res) => {
-		res.render("index")
+		res.render("products",{products})
 	},
 
 	// Detail - Detail from one product
@@ -26,7 +25,7 @@ const controller = {
 
 	// Create - Form to create
 	create: (req, res) => {
-		res.render("product-create-form")
+		res.render("product-create-form",{title:products})
 	},
 
 	// Create -  Method to store
@@ -37,7 +36,7 @@ const controller = {
 	const archivoJson = getJson("productsDataBase");
     const id = archivoJson[archivoJson.length - 1].id + 1;
     const { name, price, discount, category, description } = req.body;
-    let newObjeto = {
+    let obNuevo = {
     id,
     name,
     price: +price,
@@ -46,8 +45,8 @@ const controller = {
     description,
     image: "default-image.png",
     };
-    let newArchivo = [...archivoJson, newObjeto];
-    setJson(newArchivo, "productsDataBase");
+    let nuevoElemento = [...archivoJson, obNuevo];
+    setJson(nuevoElemento, "productsDataBase");
     res.redirect("/products");
 	},
 
@@ -84,16 +83,15 @@ const controller = {
 	}, 
 
 	// Delete - Delete one product from DB
-	destroy : (req, res) => {
-		const id= +req.params.id
-		const archivoJson = loadProduct();
-		const productosRestantes = archivosJson.filter(product => product.id !== id)
-		res.send(productosRestantes)
-
-		storeProduct(productosRestantes);
-		return res.redirect('/products')
-		storeProduct(productosRestantes)
-		
+	destroy: (req, res) => {
+		const {id}= req.params;
+		const getJason = ()=>{
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+			return products;}
+		const archivoJson = getJson("productsDataBase");
+		const productosRestantes = archivoJson.filter(product => product.id != id);
+			setJson(productosRestantes, "productsDataBase");
+			res.redirect("/products");
 	}
 };
 
