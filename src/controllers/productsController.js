@@ -81,10 +81,11 @@ const controller = {
 	}, 
 
 	// Delete - Delete one product from DB   
-	destroy: (req, res) => { const id = req.params.id; const leerjson = products;
+	destroy: (req, res) => { const id = req.params.id;
+		const leerjson = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 	// console.log(leerjson); 
-	const producto = leerjson.filter(producto => producto.id != id); 
-	const json = JSON.stringify(producto);
+	const producto = leerjson.products.filter(producto => producto.id != id); 
+	const json = JSON.stringify({products: producto});
 	fs.writeFileSync(productsFilePath, json, "utf-8"); 
 	res.redirect("/products"); }
 	
