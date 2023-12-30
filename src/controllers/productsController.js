@@ -1,8 +1,5 @@
+const { lectura, escritura } = require("../utility/moduloProp");
 const fs = require('fs');
-const path = require('path');
-
-const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
-const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
 
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -22,8 +19,8 @@ const controller = {
 		const products = lectura("productsDataBase");
 		const product = products.find((producto) => producto.id == id);
 
-		// res.render("detail",{title:product.name,product,toThousand})
-		res.render("detail", { product, toThousand });
+		res.render("detail",{title:product.name,product,toThousand})
+		
 	},
 
 
@@ -52,17 +49,16 @@ store: (req, res) => {
 	};
 	let nuevoElemento = [...archivoJson, obNuevo];
 	escritura(nuevoElemento, "productsDataBase");
-	res.redirect("/products");
+	res.redirect("/products",title);
 },
 
 // Update - Form to edit
 edit: (req, res) => {
-		const products = getJson("productsDataBase");
-		const product = products.find((producto) => producto.id == id);
-		res.render("product-edit-form", { product }
-		);
-	},
-
+    const { id } = req.params;
+    const products = lectura("productsDataBase");
+    const product = products.find((producto) => producto.id == id);
+    res.render("product-edit-form",{title:product.name,product,toThousand});
+},
 // Update - Method to update
 update: (req, res) => {
     const file = req.file
@@ -85,23 +81,18 @@ update: (req, res) => {
     });
 
     escritura(nuevoArray, "productsDataBase");
-    res.redirect(`/products/${id}`);
+    res.redirect(`/products`);
 },
 // Delete - Delete one product from DB   
-			destroy: (req, res) => {
-				const id = req.params;
-				const leerjson = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
-				// console.log(leerjson); 
-				const producto = leerjson.products.filter(producto => producto.id != id);
-				const json = JSON.stringify({ products: producto });
-				fs.writeFileSync(productsFilePath, json, "utf-8");
-				res.redirect("/products");
-			}
-			// destroy: (req, res) => {
-				// const {id}= req.params;
-				// const archivoJson = getJson("productsDataBase");
-				// const product = archivoJson.find(producto => producto.id == id);
-			// 
+	 destroy: (req, res) => {
+				const {id}= req.params;
+				const archivoJson = lectura("productsDataBase");
+				const producto = products.filter( producto => producto.id != id );
+					const json = JSON.stringify(producto);
+					fs.writeFileSync(productsFilePath,json,"utf-8");
+					res.redirect("/products")
+				}
+
 };
 
 module.exports = controller;
