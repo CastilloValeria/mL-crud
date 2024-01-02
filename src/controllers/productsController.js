@@ -39,7 +39,7 @@ store: (req, res) => {
 	const id = archivoJson[archivoJson.length - 1].id + 1;
 	const { name, price, discount, category, description } = req.body;
 	let obNuevo = {
-		id,
+		id:+id,
 		name,
 		price: +price,
 		discount: +discount,
@@ -84,15 +84,20 @@ update: (req, res) => {
     res.redirect(`/products`);
 },
 // Delete - Delete one product from DB   
-	 destroy: (req, res) => {
-				const {id}= req.params;
-				const archivoJson = lectura("productsDataBase");
-				const producto = products.filter( producto => producto.id != id );
-					const json = JSON.stringify(producto);
-					fs.writeFileSync(productsFilePath,json,"utf-8");
-					res.redirect("/products")
-				}
+destroy: (req, res) => {
+	const {id}= req.params;
+    const archivoJson = lectura("productsDataBase");
+    const product = archivoJson.find(producto => producto.id == id);
 
+    const productos2 = archivoJson.filter(product => product.id != id);
+    fs.unlink(`./public/images/products/${product.image}`, (err) => {
+    if(err) throw err
+    console.log("Archivo borrado")
+    })
+    escritura(productos2, "productsDataBase");
+    res.redirect("/products");
+},
 };
+
 
 module.exports = controller;
