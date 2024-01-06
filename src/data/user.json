@@ -1,0 +1,14 @@
+[
+    {
+        "name":"usuario1",
+        "apellido":"fulanito",
+        "email":"arrobayo@yahoo.com",
+        "contraseña":"quety"
+    },
+    {
+        "name":"pepito",
+        "apellido":"quetal",
+        "email":"arrobatu@yahoo.com",
+        "contraseña":"pasabaxaqui"
+    }
+]
