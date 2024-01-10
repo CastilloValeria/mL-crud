@@ -1,17 +1,30 @@
-const fs = require ('fs');
-const path = require('path');
-const { check } = require('express-validator');
+// ************ Require's ************
+const express = require('express');
+const router = express.Router();
+const { check } = require("express-validator")
+// ************ Controller Require ************
+const { registro, register } = require('../controllers/usersController');
 
-const validateRegister=[ 
-    check("name").notEmpty().withMessage("Complete este campo").bail()
-    .isLength({min:3, max:12}),
-    check("apellido").notEmpty().withMessage("Complete este campo").bail()
-    .isLength({min:3, max:12}),
-    check("email").notEmpty().withMessage("Complete este campo").bail()
-    .isEmail().withMessage("Complete con un email valido"),
-    check("pasword").notEmpty().withMessage("Complete este campo").bail()
-    .isLength({min:6, max:12})
-]
-router.post('/registro', validateRegister,controller.registrar);
 
-module.exports= router
+const validateRegister = [
+    check('nombre')
+        .notEmpty().withMessage('campo obligatorio').bail()
+        .isLength({ min: 3 }).withMessage('Su nombre debe contar al menos con 3 caracteres'),
+    check("apellido")
+        .notEmpty().withMessage('campo obligatorio').bail()
+        .isLength({ min: 4 }).withMessage('Su apellido tener mas de 4 caracteres'),
+    check("email")
+        .notEmpty().withMessage("ingresar su email").bail()
+        .isEmail().withMessage("El mail ingresado no es válido"),
+    check("password")
+        .notEmpty().withMessage("ingrese su contraseña").bail()
+        .isLength({ min: 8 }).withMessage("La contraseña constar de 8 caracteres")
+];
+
+
+router.get('/register', registro);
+
+
+router.post('/registro', validateRegister, register);
+
+module.exports = router;

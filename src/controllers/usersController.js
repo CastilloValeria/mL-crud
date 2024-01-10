@@ -1,21 +1,29 @@
-const { lectura, escritura } = require("../utility/moduloProp");
-const fs = require('fs');
-const {validationResult} = require("express-validator");
+const fs = require("fs")
 
-const userController={
-    register:(req,res,)=>{
-        let errors = validationResult(req);
-        if (errors.isEmpty()) {
-            // No hay errores, seguimos adelante.
+const usersController = {
+    registro: (req, res) => {
+        res.render('register', { title: "Registro" })
+    },
+    register: (req, res) => {
+        let errors= validatonResult(req);
+
+        if (!error.isEmpty()) {
+                res.render('register', { errors: errors.mapped(), old: req.body, title: "Error" });
             } else {
-                res.render('register', { errors: errors.mapped(), old: req.body });
-            }
-            },
-            
+                res.send("No tenés errores, eaeaeaaaaaa")
+                }
+        }
     }
+module.exports = usersController;
 
 
 
 
 
-module.exports= userController
+
+
+
+
+
+
+module.exports = usersController;
